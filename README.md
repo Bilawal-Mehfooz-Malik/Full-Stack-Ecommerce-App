@@ -1,32 +1,12 @@
-# Flutter & Firebase Masterclass - eCommerce App
-
-This is the official repo for this course:
-
-- [Flutter & Firebase Masterclass](https://codewithandrea.com/courses/flutter-firebase-masterclass/)
-
-This will include a full-stack eCommerce app using Flutter & Firebase:
+# Full Stack Ecommerce App
 
 ![eCommerce App Preview](/.github/images/ecommerce-app-preview.png)
 
-## Project Setup
-
+## Setup
 To clone the repo for the first time and open it in VSCode, run this:
 
 ```
-git clone https://github.com/bizz84/flutter-firebase-masterclass.git
-cd flutter-firebase-masterclass
-code .
-```
-
-This will checkout the `main` branch which contains the **latest code**.
-
-But at various points in the course, I'll ask you to checkout a **specific branch name**, so you can follow along with the right code, at the right time.
-
-And to prevent any conflicts, you may need to reset your local changes:
-
-```
-git reset --hard HEAD
-git checkout <branch-name>
+git clone https://github.com/Bilawal-Mehfooz-Malik/Full-Stack-Ecommerce-App.git
 ```
 
 ### Firebase Setup
@@ -56,9 +36,6 @@ firebase deploy
 ```
 
 ### Stripe Setup
-
-In module 8 of the course, we add Stripe to the eCommerce app.
-
 For the Stripe code to work, a `STRIPE_PUBLISHABLE_KEY` needs to be set on the client.
 
 To set it, create an `.env` file inside the `ecommerce_app` folder and add your [Stripe publishable key](https://dashboard.stripe.com/test/apikeys):
@@ -80,11 +57,3 @@ As a result, the API key can be read as `Env.stripePublishableKey` in the Stripe
 
 > [!NOTE]
 > API keys defined with `--dart-define-from-file` were failing to load on Flutter web in release mode (see [this answer](https://stackoverflow.com/a/65647968/436422) and [this comment](https://stackoverflow.com/questions/65647090/access-dart-define-environment-variables-inside-index-html#comment120444154_65647968)). To work around that, the project now uses the [Envied](https://pub.dev/packages/envied) package.
-
-## Documentation site
-
-A documentation site with useful FAQs and guides can be found here:
-
-- [Flutter & Firebase Masterclass - Documentation](https://docs.page/bizz84/flutter-firebase-masterclass/index)
-
-### [LICENSE: MIT](LICENSE.md)

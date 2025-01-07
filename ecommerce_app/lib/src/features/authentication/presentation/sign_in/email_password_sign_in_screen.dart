@@ -1,15 +1,16 @@
+import 'package:ecommerce_app/src/common_widgets/custom_text_button.dart';
+import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
+import 'package:ecommerce_app/src/common_widgets/responsive_scrollable_card.dart';
+import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_controller.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_validators.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/string_validators.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:ecommerce_app/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ecommerce_app/src/common_widgets/custom_text_button.dart';
-import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
-import 'package:ecommerce_app/src/common_widgets/responsive_scrollable_card.dart';
-import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Email & password sign in screen.
@@ -26,10 +27,11 @@ class EmailPasswordSignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign In'.hardcoded)),
-      body: EmailPasswordSignInContents(
-        formType: formType,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Sign In'.hardcoded),
       ),
+      body: EmailPasswordSignInContents(formType: formType),
     );
   }
 }
@@ -55,6 +57,9 @@ class EmailPasswordSignInContents extends ConsumerStatefulWidget {
 class _EmailPasswordSignInContentsState
     extends ConsumerState<EmailPasswordSignInContents>
     with EmailAndPasswordValidators {
+  var _submitted = false;
+  bool _obscureText = true;
+  bool _showClearButton = false;
   final _formKey = GlobalKey<FormState>();
   final _node = FocusScopeNode();
   final _emailController = TextEditingController();
@@ -63,17 +68,21 @@ class _EmailPasswordSignInContentsState
   String get email => _emailController.text;
   String get password => _passwordController.text;
 
-  // local variable used to apply AutovalidateMode.onUserInteraction and show
-  // error hints only when the form has been submitted
-  // For more details on how this is implemented, see:
-  // https://codewithandrea.com/articles/flutter-text-field-form-validation/
-  var _submitted = false;
   // track the formType as a local state variable
   late var _formType = widget.formType;
 
   @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(() {
+      setState(() {
+        _showClearButton = _emailController.text.isNotEmpty;
+      });
+    });
+  }
+
+  @override
   void dispose() {
-    // * TextEditingControllers should be always disposed
     _node.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -118,6 +127,62 @@ class _EmailPasswordSignInContentsState
     _passwordController.clear();
   }
 
+  TextFormField _buildPasswordField(
+    AsyncValue<void> state,
+    BuildContext context,
+  ) {
+    return TextFormField(
+      key: EmailPasswordSignInScreen.passwordKey,
+      controller: _passwordController,
+      decoration: InputDecoration(
+        enabled: !state.isLoading,
+        hintText: _formType.passwordLabelText,
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscureText ? Icons.visibility_off : Icons.visibility,
+            color: context.colorScheme.secondary,
+          ),
+          onPressed: () {
+            setState(() => _obscureText = !_obscureText);
+          },
+        ),
+      ),
+      autocorrect: false,
+      obscureText: _obscureText,
+      textInputAction: TextInputAction.done,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onEditingComplete: () => _passwordEditingComplete(),
+      validator: (password) =>
+          !_submitted ? null : passwordErrorText(password ?? '', _formType),
+    );
+  }
+
+  TextFormField _buildEmailField(AsyncValue<void> state, BuildContext context) {
+    return TextFormField(
+      key: EmailPasswordSignInScreen.emailKey,
+      controller: _emailController,
+      decoration: InputDecoration(
+        hintText: 'Enter your email'.hardcoded,
+        enabled: !state.isLoading,
+        suffixIcon: _showClearButton
+            ? IconButton(
+                icon: Icon(Icons.clear, color: context.colorScheme.secondary),
+                onPressed: () => _emailController.clear(),
+              )
+            : null,
+      ),
+      autocorrect: false,
+      textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.emailAddress,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onEditingComplete: () => _emailEditingComplete(),
+      validator: (email) => !_submitted ? null : emailErrorText(email ?? ''),
+      inputFormatters: <TextInputFormatter>[
+        ValidatorInputFormatter(editingValidator: EmailEditingRegexValidator()),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
@@ -133,49 +198,14 @@ class _EmailPasswordSignInContentsState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              Text('Email'.hardcoded, style: context.textTheme.titleMedium),
               gapH8,
-              // Email field
-              TextFormField(
-                key: EmailPasswordSignInScreen.emailKey,
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email'.hardcoded,
-                  hintText: 'test@test.com'.hardcoded,
-                  enabled: !state.isLoading,
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (email) =>
-                    !_submitted ? null : emailErrorText(email ?? ''),
-                autocorrect: false,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.emailAddress,
-                keyboardAppearance: Brightness.light,
-                onEditingComplete: () => _emailEditingComplete(),
-                inputFormatters: <TextInputFormatter>[
-                  ValidatorInputFormatter(
-                      editingValidator: EmailEditingRegexValidator()),
-                ],
-              ),
+              _buildEmailField(state, context),
+              gapH16,
+              Text('Password'.hardcoded, style: context.textTheme.titleMedium),
               gapH8,
-              // Password field
-              TextFormField(
-                key: EmailPasswordSignInScreen.passwordKey,
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: _formType.passwordLabelText,
-                  enabled: !state.isLoading,
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (password) => !_submitted
-                    ? null
-                    : passwordErrorText(password ?? '', _formType),
-                obscureText: true,
-                autocorrect: false,
-                textInputAction: TextInputAction.done,
-                keyboardAppearance: Brightness.light,
-                onEditingComplete: () => _passwordEditingComplete(),
-              ),
-              gapH8,
+              _buildPasswordField(state, context),
+              gapH16,
               PrimaryButton(
                 text: _formType.primaryButtonText,
                 isLoading: state.isLoading,

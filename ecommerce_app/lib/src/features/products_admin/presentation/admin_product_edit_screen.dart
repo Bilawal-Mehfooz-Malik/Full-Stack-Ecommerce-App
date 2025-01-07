@@ -3,6 +3,7 @@ import 'package:ecommerce_app/src/common_widgets/alert_dialogs.dart';
 import 'package:ecommerce_app/src/common_widgets/custom_image.dart';
 import 'package:ecommerce_app/src/common_widgets/custom_text_button.dart';
 import 'package:ecommerce_app/src/common_widgets/error_message_widget.dart';
+import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
@@ -12,6 +13,7 @@ import 'package:ecommerce_app/src/features/products_admin/data/template_products
 import 'package:ecommerce_app/src/features/products_admin/presentation/admin_product_edit_controller.dart';
 import 'package:ecommerce_app/src/features/products_admin/presentation/product_validator.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:ecommerce_app/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -128,11 +130,7 @@ class _AdminProductScreenContentsState
       if (success) {
         // Inform the user that the product has been updated
         scaffoldMessenger.showSnackBar(
-          SnackBar(
-            content: Text(
-              'Product updated'.hardcoded,
-            ),
-          ),
+          SnackBar(content: Text('Product updated'.hardcoded)),
         );
       }
     }
@@ -176,47 +174,68 @@ class _AdminProductScreenContentsState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Text(
+                        'Name'.hardcoded,
+                        style: context.textTheme.titleMedium,
+                      ),
+                      gapH4,
                       TextFormField(
                         controller: _titleController,
                         enabled: !isLoading,
                         decoration: InputDecoration(
-                          label: Text('Title'.hardcoded),
+                          hintText: 'Enter product name'.hardcoded,
                         ),
                         autovalidateMode: autovalidateMode,
                         validator:
                             ref.read(productValidatorProvider).titleValidator,
                       ),
-                      gapH8,
+                      gapH12,
+                      Text(
+                        'Description'.hardcoded,
+                        style: context.textTheme.titleMedium,
+                      ),
+                      gapH4,
                       TextFormField(
                         controller: _descriptionController,
                         enabled: !isLoading,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         decoration: InputDecoration(
-                          label: Text('Description'.hardcoded),
+                          hintText: 'Enter product description'.hardcoded,
                         ),
                         autovalidateMode: autovalidateMode,
                         validator: ref
                             .read(productValidatorProvider)
                             .descriptionValidator,
                       ),
-                      gapH8,
+                      gapH12,
+                      Text(
+                        'Price'.hardcoded,
+                        style: context.textTheme.titleMedium,
+                      ),
+                      gapH4,
                       TextFormField(
                         controller: _priceController,
                         enabled: !isLoading,
                         decoration: InputDecoration(
-                          label: Text('Price'.hardcoded),
+                          hintText: 'Enter product price'.hardcoded,
                         ),
                         autovalidateMode: autovalidateMode,
                         validator:
                             ref.read(productValidatorProvider).priceValidator,
                       ),
-                      gapH8,
+                      gapH12,
+                      Text(
+                        'Available Quantity'.hardcoded,
+                        style: context.textTheme.titleMedium,
+                      ),
+                      gapH4,
                       TextFormField(
                         controller: _availableQuantityController,
                         enabled: !isLoading,
                         decoration: InputDecoration(
-                          label: Text('Available Quantity'.hardcoded),
+                          hintText:
+                              'Enter available product quantity'.hardcoded,
                         ),
                         autovalidateMode: autovalidateMode,
                         validator: ref
@@ -254,15 +273,12 @@ class EditProductOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveTwoColumnLayout(
       rowMainAxisAlignment: MainAxisAlignment.center,
-      startContent: CustomTextButton(
+      startContent: PrimaryButton(
         text: 'Load from Template'.hardcoded,
-        style: Theme.of(context).textTheme.titleSmall,
         onPressed: onLoadFromTemplate,
       ),
       endContent: CustomTextButton(
         text: 'Delete Product'.hardcoded,
-        style:
-            Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.red),
         onPressed: onDelete,
       ),
       spacing: Sizes.p8,

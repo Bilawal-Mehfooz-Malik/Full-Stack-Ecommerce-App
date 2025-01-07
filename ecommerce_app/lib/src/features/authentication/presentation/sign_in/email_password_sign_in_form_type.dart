@@ -8,7 +8,7 @@ extension EmailPasswordSignInFormTypeX on EmailPasswordSignInFormType {
     if (this == EmailPasswordSignInFormType.register) {
       return 'Password (8+ characters)'.hardcoded;
     } else {
-      return 'Password'.hardcoded;
+      return 'Enter your password'.hardcoded;
     }
   }
 

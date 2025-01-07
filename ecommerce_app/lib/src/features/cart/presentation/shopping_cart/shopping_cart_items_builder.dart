@@ -31,7 +31,7 @@ class ShoppingCartItemsBuilder extends StatelessWidget {
     // ! MediaQuery is used on the assumption that the widget takes up the full
     // ! width of the screen. If that's not the case, LayoutBuilder should be
     // ! used instead.
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.sizeOf(context).width;
     // * on wide layouts, show a list of items on the left and the checkout
     // * button on the right
     if (screenWidth >= Breakpoint.tablet) {
@@ -79,8 +79,7 @@ class ShoppingCartItemsBuilder extends StatelessWidget {
             ),
           ),
           DecoratedBoxWithShadow(
-            child: CartTotalWithCTA(ctaBuilder: ctaBuilder),
-          ),
+              child: CartTotalWithCTA(ctaBuilder: ctaBuilder)),
         ],
       );
     }

@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 
@@ -11,12 +12,11 @@ class ActionTextButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
       child: TextButton(
+        style: ButtonStyle(
+            foregroundColor:
+                WidgetStatePropertyAll(context.colorScheme.onSurface)),
         onPressed: onPressed,
-        child: Text(text,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: Colors.white)),
+        child: Text(text),
       ),
     );
   }

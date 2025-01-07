@@ -1,13 +1,15 @@
 import 'dart:math';
 
 import 'package:ecommerce_app/src/common_widgets/error_message_widget.dart';
+import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/constants/breakpoints.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/product_card.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/products_search_query_notifier.dart';
+import 'package:ecommerce_app/src/features/products/presentation/products_list/shimmer_product_card.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -22,7 +24,7 @@ class SliverProductsGrid extends ConsumerWidget {
     final productsListValue = ref.watch(productsSearchResultsProvider);
     final error = productsListValue.error;
     if (error != null) {
-      return SliverToBoxAdapter(
+      return SliverFillRemaining(
         child: Center(child: ErrorMessageWidget(error.toString())),
       );
     }
@@ -30,8 +32,9 @@ class SliverProductsGrid extends ConsumerWidget {
     final products = productsListValue.value;
     // * As a result, we only show the loading indicator if the value is null
     if (products == null) {
-      return const SliverToBoxAdapter(
-        child: Center(child: CircularProgressIndicator()),
+      return SliverProductsAlignedGrid(
+        itemCount: 8,
+        itemBuilder: (_, __) => const ShimmerProductCard(),
       );
     }
     // * Otherwise, we use the current or previous value to show the products
@@ -64,11 +67,11 @@ class SliverProductsAlignedGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (itemCount == 0) {
-      return SliverToBoxAdapter(
+      return SliverFillRemaining(
         child: Center(
           child: Text(
             'No products found'.hardcoded,
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: context.textTheme.bodyLarge,
           ),
         ),
       );
@@ -79,9 +82,9 @@ class SliverProductsAlignedGrid extends StatelessWidget {
       final width = constraints.crossAxisExtent;
       // max width allowed for the sliver
       final maxWidth = min(width, Breakpoint.desktop);
-      // use 1 column for width < 500px
-      // then add one more column for each 250px
-      final crossAxisCount = max(1, maxWidth ~/ 250);
+      // use 1 column for width < 400px
+      // then add one more column for each 200px
+      final crossAxisCount = max(1, maxWidth ~/ 200);
       // calculate a "responsive" padding that increases
       // when the width is greater than the desktop breakpoint
       // this is used to center the content horizontally on large screens
@@ -92,8 +95,6 @@ class SliverProductsAlignedGrid extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: padding, vertical: Sizes.p16),
         sliver: SliverAlignedGrid.count(
           crossAxisCount: crossAxisCount,
-          mainAxisSpacing: Sizes.p24,
-          crossAxisSpacing: Sizes.p24,
           itemBuilder: itemBuilder,
           itemCount: itemCount,
         ),

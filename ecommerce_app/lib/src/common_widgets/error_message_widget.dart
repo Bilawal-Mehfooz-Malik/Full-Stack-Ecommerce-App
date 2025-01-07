@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 /// Reusable error message widget (just a [Text] with a red color).
@@ -8,8 +9,7 @@ class ErrorMessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       errorMessage,
-      style:
-          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
+      style: context.textTheme.bodyLarge!.copyWith(color: Colors.red),
     );
   }
 }

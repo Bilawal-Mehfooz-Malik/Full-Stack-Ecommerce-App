@@ -5,6 +5,7 @@ import 'package:ecommerce_app/src/features/products/presentation/products_list/s
 import 'package:ecommerce_app/src/features/products_admin/data/template_products_providers.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/routing/app_router.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,14 +17,12 @@ class AdminProductsAddScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add a product'.hardcoded),
-      ),
+      appBar: AppBar(title: Text('Add a product'.hardcoded)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ColoredBox(
-            color: Colors.grey.shade400,
+            color: context.colorScheme.inversePrimary,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(

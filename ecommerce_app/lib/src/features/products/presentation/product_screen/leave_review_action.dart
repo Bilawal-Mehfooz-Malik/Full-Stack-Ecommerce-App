@@ -3,6 +3,8 @@ import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/reviews/application/reviews_service.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/routing/app_router.dart';
+import 'package:ecommerce_app/src/themes/colors.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:ecommerce_app/src/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/common_widgets/custom_text_button.dart';
@@ -46,10 +48,8 @@ class LeaveReviewAction extends ConsumerWidget {
                           ? 'Update review'
                           : 'Leave a review')
                       .hardcoded,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: Colors.green[700]),
+                  style:
+                      context.textTheme.bodyLarge!.copyWith(color: greenColor),
                   onPressed: () => context.goNamed(
                     AppRoute.leaveReview.name,
                     pathParameters: {'id': productId},

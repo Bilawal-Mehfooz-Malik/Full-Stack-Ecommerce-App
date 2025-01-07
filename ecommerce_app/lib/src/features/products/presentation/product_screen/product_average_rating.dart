@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/src/themes/colors.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
@@ -11,14 +13,11 @@ class ProductAverageRating extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(
-          Icons.star,
-          color: Colors.amber,
-        ),
+        const Icon(Icons.star, color: ratingColor, size: 20),
         gapW8,
         Text(
           product.avgRating.toStringAsFixed(1),
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: context.textTheme.bodyLarge,
         ),
         gapW8,
         Expanded(
@@ -26,7 +25,7 @@ class ProductAverageRating extends StatelessWidget {
             product.numRatings == 1
                 ? '1 rating'
                 : '${product.numRatings} ratings',
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: context.textTheme.bodyMedium,
           ),
         ),
       ],

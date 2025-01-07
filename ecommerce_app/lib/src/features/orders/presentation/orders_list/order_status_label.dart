@@ -1,4 +1,6 @@
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/colors.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/features/orders/domain/order.dart';
 
@@ -9,7 +11,7 @@ class OrderStatusLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyLarge!;
+    final textStyle = context.textTheme.bodyLarge!;
     switch (order.orderStatus) {
       case OrderStatus.confirmed:
         return Text(
@@ -17,15 +19,10 @@ class OrderStatusLabel extends StatelessWidget {
           style: textStyle,
         );
       case OrderStatus.shipped:
-        return Text(
-          'Shipped'.hardcoded,
-          style: textStyle,
-        );
+        return Text('Shipped'.hardcoded, style: textStyle);
       case OrderStatus.delivered:
-        return Text(
-          'Delivered'.hardcoded,
-          style: textStyle.copyWith(color: Colors.green),
-        );
+        return Text('Delivered'.hardcoded,
+            style: textStyle.copyWith(color: greenColor));
     }
   }
 }

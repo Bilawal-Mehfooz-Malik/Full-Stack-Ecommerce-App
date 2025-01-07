@@ -27,19 +27,21 @@ module.exports = {
     "import",
   ],
   rules: {
-    "quotes": ["error", "double"],
-    "import/no-unresolved": 0,
-    "indent": ["error", 2],
-    "semi": ["off"],
-    "require-jsdoc": ["off"],
-    "object-curly-spacing": ["off"],
-    "spaced-comment": ["off"],
+    "quotes": ["error", "double"], // Enforces the use of double quotes.
+    "import/no-unresolved": 0, // Disables unresolved import warnings.
+    "indent": ["off"], // Turns off indentation enforcement.
+    "semi": ["off"], // Disables semicolon enforcement.
+    "require-jsdoc": ["off"], // Disables JSDoc comment enforcement.
+    "object-curly-spacing": ["off"], // Disables object literal spacing enforcement.
+    "spaced-comment": ["off"], // Turns off comment spacing enforcement.
     "max-len": [
       "error",
       {
-        "code": 140,
+        "code": 140, // Sets maximum line length to 140 characters.
       },
     ],
-    "@typescript-eslint/no-unused-vars": ["off"],
+    "@typescript-eslint/no-unused-vars": ["off"], // Disables the unused variables rule.
+    "no-trailing-spaces": ["off"],
+    "linebreak-style": ["off"],
   },
 };

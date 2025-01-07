@@ -7,33 +7,45 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// More info here:
 /// https://codewithandrea.com/articles/async-value-widget-riverpod/
 class AsyncValueWidget<T> extends StatelessWidget {
-  const AsyncValueWidget({super.key, required this.value, required this.data});
+  const AsyncValueWidget({
+    super.key,
+    required this.value,
+    required this.data,
+    this.loading,
+  });
   final AsyncValue<T> value;
   final Widget Function(T) data;
+  final Widget? loading;
 
   @override
   Widget build(BuildContext context) {
     return value.when(
       data: data,
       error: (e, st) => Center(child: ErrorMessageWidget(e.toString())),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () =>
+          loading ?? const Center(child: CircularProgressIndicator()),
     );
   }
 }
 
 /// Sliver equivalent of [AsyncValueWidget]
 class AsyncValueSliverWidget<T> extends StatelessWidget {
-  const AsyncValueSliverWidget(
-      {super.key, required this.value, required this.data});
+  const AsyncValueSliverWidget({
+    super.key,
+    required this.value,
+    required this.data,
+    this.loading,
+  });
   final AsyncValue<T> value;
   final Widget Function(T) data;
+  final Widget? loading;
 
   @override
   Widget build(BuildContext context) {
     return value.when(
       data: data,
-      loading: () => const SliverToBoxAdapter(
-          child: Center(child: CircularProgressIndicator())),
+      loading: () => SliverToBoxAdapter(
+          child: loading ?? Center(child: CircularProgressIndicator())),
       error: (e, st) => SliverToBoxAdapter(
         child: Center(child: ErrorMessageWidget(e.toString())),
       ),

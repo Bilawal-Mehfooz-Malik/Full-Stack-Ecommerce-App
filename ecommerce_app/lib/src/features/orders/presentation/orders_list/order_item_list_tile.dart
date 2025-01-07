@@ -1,7 +1,9 @@
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
+import 'package:ecommerce_app/src/features/orders/presentation/orders_list/shimmer_order_list.dart';
 import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/common_widgets/custom_image.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
@@ -18,13 +20,21 @@ class OrderItemListTile extends ConsumerWidget {
     final productValue = ref.watch(productStreamProvider(item.productId));
     return AsyncValueWidget<Product?>(
       value: productValue,
+      loading: ShimmerOrderItemListTile(),
       data: (product) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+        padding: const EdgeInsets.only(
+          bottom: Sizes.p8,
+          left: Sizes.p16,
+          right: Sizes.p16,
+        ),
         child: Row(
           children: [
             Flexible(
               flex: 1,
-              child: CustomImage(imageUrl: product!.imageUrl),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(Sizes.p12),
+                child: CustomImage(imageUrl: product!.imageUrl),
+              ),
             ),
             gapW8,
             Flexible(
@@ -36,7 +46,7 @@ class OrderItemListTile extends ConsumerWidget {
                   gapH12,
                   Text(
                     'Quantity: ${item.quantity}'.hardcoded,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: context.textTheme.bodySmall,
                   ),
                 ],
               ),

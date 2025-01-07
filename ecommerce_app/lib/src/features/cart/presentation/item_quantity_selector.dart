@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 
@@ -27,10 +28,7 @@ class ItemQuantitySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black54,
-          width: 1,
-        ),
+        border: Border.all(color: context.colorScheme.secondary),
         borderRadius: const BorderRadius.all(Radius.circular(Sizes.p24)),
       ),
       child: Row(
@@ -50,7 +48,7 @@ class ItemQuantitySelector extends StatelessWidget {
               '$quantity',
               key: quantityKey(itemIndex),
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: context.textTheme.bodyLarge,
             ),
           ),
           IconButton(

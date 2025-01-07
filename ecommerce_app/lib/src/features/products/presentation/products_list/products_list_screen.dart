@@ -50,7 +50,7 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
         controller: _scrollController,
         slivers: [
           const ResponsiveSliverCenter(
-            padding: EdgeInsets.all(Sizes.p16),
+            padding: EdgeInsets.symmetric(horizontal: Sizes.p16),
             child: ProductsSearchTextField(),
           ),
           SliverProductsGrid(

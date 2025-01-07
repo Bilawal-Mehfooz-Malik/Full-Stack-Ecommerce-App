@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:ecommerce_app/src/features/cart/application/cart_service.dart';
 import 'package:ecommerce_app/src/features/cart/presentation/add_to_cart/add_to_cart_controller.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:ecommerce_app/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/features/cart/presentation/item_quantity_selector.dart';
@@ -51,6 +52,14 @@ class AddToCartWidget extends ConsumerWidget {
         const Divider(),
         gapH8,
         PrimaryButton(
+          buttonStyle: ButtonStyle(
+            backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+              if (states.contains(WidgetState.disabled)) {
+                return context.colorScheme.secondary;
+              }
+              return context.colorScheme.primary;
+            }),
+          ),
           isLoading: state.isLoading,
           // only enable the button if there is enough stock
           onPressed: availableQuantity > 0
@@ -66,7 +75,7 @@ class AddToCartWidget extends ConsumerWidget {
           gapH8,
           Text(
             'Already added to cart'.hardcoded,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: context.textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
         ]

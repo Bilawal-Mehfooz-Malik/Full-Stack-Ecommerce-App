@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
 import 'package:ecommerce_app/src/features/cart/application/cart_service.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
+import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shimmer_cart_items_builder.dart';
 import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_item.dart';
 import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_items_builder.dart';
 import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen_controller.dart';
@@ -33,6 +34,7 @@ class ShoppingCartScreen extends ConsumerWidget {
           final cartValue = ref.watch(cartProvider);
           return AsyncValueWidget<Cart>(
             value: cartValue,
+            loading: ShimmerCartItemsBuilder(),
             data: (cart) => ShoppingCartItemsBuilder(
               items: cart.toItemsList(),
               itemBuilder: (_, item, index) => ShoppingCartItem(

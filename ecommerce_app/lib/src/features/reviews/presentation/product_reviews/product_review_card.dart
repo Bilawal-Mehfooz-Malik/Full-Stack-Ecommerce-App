@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/src/features/reviews/presentation/product_reviews/product_rating_bar.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
@@ -28,15 +29,12 @@ class ProductReviewCard extends ConsumerWidget {
                   // * ok to use an empty callback here since we're ignoring gestures
                   onRatingUpdate: (value) {},
                 ),
-                Text(dateFormatted, style: Theme.of(context).textTheme.bodySmall),
+                Text(dateFormatted, style: context.textTheme.bodySmall),
               ],
             ),
             if (review.comment.isNotEmpty) ...[
               gapH16,
-              Text(
-                review.comment,
-                style: Theme.of(context).textTheme.bodySmall,
-              )
+              Text(review.comment, style: context.textTheme.bodySmall)
             ],
           ],
         ),

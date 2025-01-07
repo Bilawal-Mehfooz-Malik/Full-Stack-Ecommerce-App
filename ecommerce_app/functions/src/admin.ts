@@ -13,7 +13,7 @@ export async function makeAdminIfWhitelisted(user: admin.auth.UserRecord) {
   //   logger.log(`${email} is not verified`)
   //   return
   // }
-  if (!email.endsWith("@codewithandrea.com")) {
+  if (!email.endsWith("@bilawal.com")) {
     logger.log(`${email} doesn't belong to a whitelisted domain`)
     return
   }

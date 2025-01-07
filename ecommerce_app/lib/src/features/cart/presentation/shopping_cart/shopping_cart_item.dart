@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
+import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shimmer_cart_items_builder.dart';
 import 'package:ecommerce_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen_controller.dart';
 import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:ecommerce_app/src/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/common_widgets/custom_image.dart';
@@ -35,6 +37,7 @@ class ShoppingCartItem extends ConsumerWidget {
     final productValue = ref.watch(productStreamProvider(item.productId));
     return AsyncValueWidget<Product?>(
       value: productValue,
+      loading: ShimmerCartItem(),
       data: (product) => Padding(
         padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
         child: Card(
@@ -79,15 +82,14 @@ class ShoppingCartItemContents extends ConsumerWidget {
       endFlex: 2,
       breakpoint: 320,
       startContent: CustomImage(imageUrl: product.imageUrl),
-      spacing: Sizes.p24,
+      spacing: Sizes.p16,
       endContent: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(product.title, style: Theme.of(context).textTheme.headlineSmall),
-          gapH24,
-          Text(priceFormatted,
-              style: Theme.of(context).textTheme.headlineSmall),
-          gapH24,
+          Text(product.title, style: context.textTheme.titleLarge),
+          gapH12,
+          Text(priceFormatted, style: context.textTheme.titleLarge),
+          gapH12,
           isEditable
               // show the quantity selector and a delete button
               ? EditOrRemoveItemWidget(
@@ -98,9 +100,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
               // else, show the quantity as a read-only label
               : Padding(
                   padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-                  child: Text(
-                    'Quantity: ${item.quantity}'.hardcoded,
-                  ),
+                  child: Text('Quantity: ${item.quantity}'.hardcoded),
                 ),
         ],
       ),
@@ -141,7 +141,7 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
         ),
         IconButton(
           key: deleteKey(itemIndex),
-          icon: Icon(Icons.delete, color: Colors.red[700]),
+          icon: Icon(Icons.delete, color: context.colorScheme.error),
           onPressed: state.isLoading
               ? null
               : () => ref

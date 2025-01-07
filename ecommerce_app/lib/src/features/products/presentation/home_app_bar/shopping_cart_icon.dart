@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/src/features/cart/application/cart_service.dart';
 import 'package:ecommerce_app/src/routing/app_router.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,8 +47,8 @@ class ShoppingCartIconBadge extends StatelessWidget {
       width: Sizes.p16,
       height: Sizes.p16,
       child: DecoratedBox(
-        decoration: const BoxDecoration(
-          color: Colors.red,
+        decoration: BoxDecoration(
+          color: context.colorScheme.error,
           shape: BoxShape.circle,
         ),
         child: Text(
@@ -57,10 +58,8 @@ class ShoppingCartIconBadge extends StatelessWidget {
           // * textScaleFactor. This is to prevent the text from growing bigger
           // * than the available space.
           textScaler: const TextScaler.linear(1.0),
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall!
-              .copyWith(color: Colors.white),
+          style: context.textTheme.bodySmall!
+              .copyWith(color: context.colorScheme.onError),
         ),
       ),
     );

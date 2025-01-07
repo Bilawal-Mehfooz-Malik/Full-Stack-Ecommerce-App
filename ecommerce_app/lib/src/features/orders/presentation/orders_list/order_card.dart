@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/src/features/orders/presentation/orders_list/order_item_list_tile.dart';
 import 'package:ecommerce_app/src/features/orders/presentation/orders_list/order_status_label.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/features/cart/domain/item.dart';
@@ -19,13 +20,13 @@ class OrderCard extends StatelessWidget {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
-        side: BorderSide(width: 1, color: Colors.grey[400]!),
+        side: BorderSide(width: 1, color: context.colorScheme.secondary),
         borderRadius: const BorderRadius.all(Radius.circular(Sizes.p8)),
       ),
       child: Column(
         children: [
           OrderHeader(order: order),
-          const Divider(height: 1, color: Colors.grey),
+          Divider(height: 1, color: context.colorScheme.secondary),
           OrderItemsList(order: order),
         ],
       ),
@@ -47,7 +48,7 @@ class OrderHeader extends ConsumerWidget {
     final dateFormatted =
         ref.watch(dateFormatterProvider).format(order.orderDate);
     return Container(
-      color: Colors.grey[200],
+      color: context.colorScheme.inversePrimary,
       padding: const EdgeInsets.all(Sizes.p16),
       child: Column(
         children: [
@@ -59,7 +60,7 @@ class OrderHeader extends ConsumerWidget {
                 children: [
                   Text(
                     'Order placed'.hardcoded.toUpperCase(),
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: context.textTheme.bodySmall,
                   ),
                   gapH4,
                   Text(dateFormatted),
@@ -71,7 +72,7 @@ class OrderHeader extends ConsumerWidget {
                   Text(
                     'Total'.hardcoded.toUpperCase(),
                     textAlign: TextAlign.end,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: context.textTheme.bodySmall,
                   ),
                   gapH4,
                   Text(totalFormatted),

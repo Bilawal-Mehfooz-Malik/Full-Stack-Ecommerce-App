@@ -23,7 +23,9 @@ class ProductReviewsList extends ConsumerWidget {
           (BuildContext context, int index) => ResponsiveCenter(
             maxContentWidth: Breakpoint.tablet,
             padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.p16, vertical: Sizes.p8),
+              horizontal: Sizes.p16,
+              vertical: Sizes.p8,
+            ),
             child: ProductReviewCard(reviews[index]),
           ),
           childCount: reviews.length,

@@ -21,9 +21,7 @@ class AdminProductUploadScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Upload a product'.hardcoded),
-      ),
+      appBar: AppBar(title: Text('Upload a product'.hardcoded)),
       body: ResponsiveCenter(
         maxContentWidth: Breakpoint.tablet,
         child: AdminProductUpload(productId: productId),

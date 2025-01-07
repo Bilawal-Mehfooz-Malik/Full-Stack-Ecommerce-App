@@ -1,5 +1,5 @@
 name: ecommerce_app
-description: Flutter eCommerce app (part of the Flutter & Firebase Masterclass)
+description: FullStack Ecommerce App
 
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
@@ -34,6 +34,7 @@ dependencies:
   pay: 2.0.0
   envied: 1.0.0
   algolia_helper_flutter: 1.1.0
+  shimmer: 3.0.0
 
 dev_dependencies:
   flutter_test:

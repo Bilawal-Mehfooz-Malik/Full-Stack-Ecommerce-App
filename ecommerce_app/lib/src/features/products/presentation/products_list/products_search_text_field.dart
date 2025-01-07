@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/src/features/products/presentation/products_list/products_search_query_notifier.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,9 +19,13 @@ class _ProductsSearchTextFieldState
 
   @override
   void dispose() {
-    // * TextEditingControllers should be always disposed
     _controller.dispose();
     super.dispose();
+  }
+
+  void _clearQuery() {
+    _controller.clear();
+    ref.read(productsSearchQueryNotifierProvider.notifier).setQuery('');
   }
 
   @override
@@ -33,20 +38,18 @@ class _ProductsSearchTextFieldState
       builder: (context, value, _) {
         return TextField(
           controller: _controller,
-          enabled: true, // * enable search
+          enabled: true,
           autofocus: false,
-          style: Theme.of(context).textTheme.titleLarge,
+          style: context.textTheme.titleLarge,
           decoration: InputDecoration(
+            filled: true,
+            fillColor: context.colorScheme.inversePrimary,
             hintText: 'Search products'.hardcoded,
-            icon: const Icon(Icons.search),
+            prefixIcon:
+                Icon(Icons.search, color: context.colorScheme.secondary),
             suffixIcon: value.text.isNotEmpty
                 ? IconButton(
-                    onPressed: () {
-                      _controller.clear();
-                      ref
-                          .read(productsSearchQueryNotifierProvider.notifier)
-                          .setQuery('');
-                    },
+                    onPressed: _clearQuery,
                     icon: const Icon(Icons.clear),
                   )
                 : null,

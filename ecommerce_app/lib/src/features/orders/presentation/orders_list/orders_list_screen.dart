@@ -1,7 +1,9 @@
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
 import 'package:ecommerce_app/src/features/orders/application/user_orders_provider.dart';
 import 'package:ecommerce_app/src/features/orders/presentation/orders_list/order_card.dart';
+import 'package:ecommerce_app/src/features/orders/presentation/orders_list/shimmer_order_list.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/themes/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
@@ -22,11 +24,12 @@ class OrdersListScreen extends StatelessWidget {
         final userOrdersValue = ref.watch(userOrdersProvider);
         return AsyncValueWidget<List<Order>>(
           value: userOrdersValue,
+          loading: ShimmerOrderList(),
           data: (orders) => orders.isEmpty
               ? Center(
                   child: Text(
                     'No previous orders'.hardcoded,
-                    style: Theme.of(context).textTheme.displaySmall,
+                    style: context.textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -36,9 +39,7 @@ class OrdersListScreen extends StatelessWidget {
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) => ResponsiveCenter(
                           padding: const EdgeInsets.all(Sizes.p8),
-                          child: OrderCard(
-                            order: orders[index],
-                          ),
+                          child: OrderCard(order: orders[index]),
                         ),
                         childCount: orders.length,
                       ),
